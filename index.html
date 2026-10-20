@@ -43,6 +43,26 @@ header .tag{background:#dceee4;color:#205841}
 #tab-calendar .chartbar .bar{background:var(--blue)}
 #tab-tracking #chart svg{max-width:100%}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style><style>
+/* Chaque onglet affiche sa couleur même lorsqu'il n'est pas sélectionné. */
+:root{--violet:#8060a5}
+.tabbar{background:#fffefaee}
+.tabbar button{font-weight:800;border:1px solid currentColor;transition:background-color .15s,color .15s}
+.tabbar #tabbtn-home{background:#e0efe6;color:#205941;border-color:#a6cfb6}
+.tabbar #tabbtn-workout{background:#f8e7df;color:#9a4f35;border-color:#dfb19e}
+.tabbar #tabbtn-calendar{background:#e3edf6;color:#315f82;border-color:#a7c3d9}
+.tabbar #tabbtn-tracking{background:#eee7f6;color:#674889;border-color:#c8b6dc}
+.tabbar #tabbtn-home[aria-selected="true"]{background:var(--forest);color:white;border-color:var(--forest)}
+.tabbar #tabbtn-workout[aria-selected="true"]{background:var(--clay);color:white;border-color:var(--clay)}
+.tabbar #tabbtn-calendar[aria-selected="true"]{background:var(--blue);color:white;border-color:var(--blue)}
+.tabbar #tabbtn-tracking[aria-selected="true"]{background:var(--violet);color:white;border-color:var(--violet)}
+#tab-tracking .panel{border-top-color:var(--violet)}
+#tab-tracking .metric{color:var(--violet)}
+#tab-tracking button:not(.secondary){background:var(--violet)}
+#tab-tracking button.secondary{background:#eee7f6;color:#674889}
+#tab-calendar .badgeitem{background:#e9f1f9;color:#315f82;font-weight:700}
+#tab-calendar .badgeitem.locked{background:#f2f3f1;color:#858c88;font-weight:400}
+@media(max-width:600px){.tabbar{gap:5px}.tabbar button{padding:11px 2px;font-size:.76rem;border-radius:10px}}
 </style></head><body><main>
 <header><span class="tag">Ton carnet de bord · privé sur cet appareil</span><h1>AU FOND DE LA FORME</h1><p class="sub">20 minutes, des habitudes durables, zéro culpabilité.</p></header>
 <div class="grid"><section class="panel"><small>Séances réalisées</small><div class="metric" id="total">0</div><small>Depuis le début de ton suivi</small></section><section class="panel"><small>Cette semaine</small><div class="metric" id="weekCount">0 / 5</div><small>Mercredi et dimanche : repos possible</small></section><section class="panel"><small>Dernier tour de taille</small><div class="metric" id="lastWaist">—</div><small>Mesure facultative, une fois par semaine suffit</small></section></div>
@@ -122,7 +142,7 @@ function renderExtras(){
  const total=Object.keys(data.done).filter(k=>data.done[k]).length;
  const current=counts[counts.length-1].count,previous=counts[counts.length-2].count;
  $("weeklySummary").textContent=current+" activité(s) cette semaine, "+previous+" la semaine précédente. Les jours de repos ne sont pas des échecs.";
- const b=$("badges");b.replaceChildren();[[1,"🌱 Premier pas"],[5,"🌿 5 activités"],[15,"🌳 15 activités"],[30,"✨ 30 activités"]].forEach(([goal,title])=>{const el=document.createElement("span");el.className="badgeitem"+(total<goal?" locked":"");el.textContent=title+(total<goal?" · "+goal+" pour débloquer":" ✓");b.append(el)});
+ const b=$("badges");b.replaceChildren();[[1,"✊ Première étincelle"],[5,"🚩 Camarade en mouvement"],[15,"⚒️ La forme en lutte"],[30,"🔥 Révolutionnaire endurant"]].forEach(([goal,title])=>{const el=document.createElement("span");el.className="badgeitem"+(total<goal?" locked":"");el.textContent=title+(total<goal?" · "+goal+" pour débloquer":" ✓");b.append(el)});
 }
 $("monthPrev").onclick=()=>{monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()-1,1);renderExtras()};
 $("monthNext").onclick=()=>{monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()+1,1);renderExtras()};

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Vérifier le JavaScript et les éléments interactifs
+      - name: Vérifier syntaxe JavaScript et identifiants
         run: |
           node <<'NODE'
           const fs=require('fs'),vm=require('vm');
@@ -17,9 +17,14 @@ jobs:
           if(!js)throw Error('Script manquant');
           new vm.Script(js);
           const ids=[...html.matchAll(/id="([^"]+)"/g)].map(x=>x[1]);
-          for(const id of ['monthPrev','monthNext','monthNow','calendar','quickDone','quickRest','prev','next','today','expressPlay','expressPause','expressReset','coachPlay','coachPause','coachRestart','export','import']){
-            if(!ids.includes(id))throw Error('Élément manquant: '+id);
-          }
           if(new Set(ids).size!==ids.length)throw Error('Identifiants HTML en double');
-          console.log('Syntaxe JS valide; boutons et calendriers présents.');
+          console.log('Syntaxe et identifiants OK');
           NODE
+      - name: Installer navigateur de test
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Tester le site en navigateur mobile
+        run: |
+          python3 -m http.server 8765 >/tmp/site.log 2>&1 &
+          node tests/smoke.cjs

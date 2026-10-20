@@ -1,0 +1,18 @@
+{
+  "name": "AU FOND DE LA FORME",
+  "short_name": "LA FORME",
+  "description": "Carnet de forme et séances guidées",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8f5",
+  "theme_color": "#154e3d",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

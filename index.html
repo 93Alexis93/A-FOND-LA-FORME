@@ -14,6 +14,35 @@
 .tabpanel>.grid{margin-top:12px}
 @media(max-width:600px){main{padding-top:10px}.tabbar{position:fixed;top:auto;bottom:0;left:0;right:0;padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));box-shadow:0 -4px 18px #15392a17;border-top:1px solid #dce5de;border-bottom:0}.tabbar button{font-size:.8rem}main{padding-bottom:calc(110px + env(safe-area-inset-bottom))}header{padding-top:12px}.panel{padding:15px}}
 @media print{.tabbar{display:none!important}.tabpanel[hidden]{display:block!important}}
+</style><style>
+/* Palette 3 tons : vert forêt, bleu ardoise, terracotta. */
+:root{--forest:#23664f;--blue:#416f91;--clay:#b9694d;--mist:#f6f8f7}
+body{background:var(--mist)}
+header h1{color:var(--forest)}
+header .tag{background:#dceee4;color:#205841}
+#tab-home .panel{border-top:3px solid var(--forest)}
+#tab-workout .panel{border-top:3px solid var(--clay)}
+#tab-calendar .panel{border-top:3px solid var(--blue)}
+#tab-tracking .panel{border-top:3px solid var(--blue)}
+#tab-home .metric{color:var(--forest)}
+#tab-workout .metric{color:var(--clay)}
+#tab-calendar .metric,#tab-tracking .metric{color:var(--blue)}
+#tab-workout button:not(.secondary){background:var(--clay)}
+#tab-calendar button:not(.secondary){background:var(--blue)}
+#tab-tracking button:not(.secondary){background:var(--blue)}
+#tab-workout button.secondary{background:#f8ebe6;color:#87462f}
+#tab-calendar button.secondary,#tab-tracking button.secondary{background:#e8f0f7;color:#305d7c}
+.tabbar button[aria-selected="true"]{background:var(--forest);color:white}
+.tabbar #tabbtn-workout[aria-selected="true"]{background:var(--clay)}
+.tabbar #tabbtn-calendar[aria-selected="true"],.tabbar #tabbtn-tracking[aria-selected="true"]{background:var(--blue)}
+.calcell.done{background:#dbefe2;border-color:#79ae8e;color:#205841}
+.calcell.rest{background:#e5eff8;border-color:#9dbbd2;color:#305d7c}
+#tab-workout .tag{background:#f6e4dc;color:#87462f}
+#tab-calendar .badgeitem{background:#e6eff7;color:#305d7c}
+#tab-calendar .badgeitem.locked{background:#f2f3f1;color:#858c88}
+#tab-calendar .chartbar .bar{background:var(--blue)}
+#tab-tracking #chart svg{max-width:100%}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style></head><body><main>
 <header><span class="tag">Ton carnet de bord · privé sur cet appareil</span><h1>AU FOND DE LA FORME</h1><p class="sub">20 minutes, des habitudes durables, zéro culpabilité.</p></header>
 <div class="grid"><section class="panel"><small>Séances réalisées</small><div class="metric" id="total">0</div><small>Depuis le début de ton suivi</small></section><section class="panel"><small>Cette semaine</small><div class="metric" id="weekCount">0 / 5</div><small>Mercredi et dimanche : repos possible</small></section><section class="panel"><small>Dernier tour de taille</small><div class="metric" id="lastWaist">—</div><small>Mesure facultative, une fois par semaine suffit</small></section></div>

@@ -47,6 +47,14 @@ const {chromium}=require('playwright');
   if((await page.locator('#sessionLabel').innerText())===initialSession)throw Error('Navigation séances inactive');
   await page.locator('#sessionPrev').click();
   if((await page.locator('#sessionLabel').innerText())!==initialSession)throw Error('Retour séance impossible');
+  // Vrai geste tactile horizontal simulé sur écran mobile.
+  const swipe=page.locator('#sessionSwipe');
+  await swipe.dispatchEvent('touchstart',{touches:[{clientX:290,clientY:250}]});
+  await swipe.dispatchEvent('touchend',{changedTouches:[{clientX:95,clientY:253}]});
+  if((await page.locator('#sessionLabel').innerText())===initialSession)throw Error('Glissement vers la gauche inactif');
+  await swipe.dispatchEvent('touchstart',{touches:[{clientX:95,clientY:253}]});
+  await swipe.dispatchEvent('touchend',{changedTouches:[{clientX:290,clientY:250}]});
+  if((await page.locator('#sessionLabel').innerText())!==initialSession)throw Error('Glissement vers la droite inactif');
   await page.locator('#expressPlay').click();
   await page.waitForTimeout(1200);
   await page.locator('#expressPause').click();

@@ -49,11 +49,17 @@ const {chromium}=require('playwright');
   if((await page.locator('#sessionLabel').innerText())!==initialSession)throw Error('Retour séance impossible');
   // Vrai geste tactile horizontal simulé sur écran mobile.
   const swipe=page.locator('#sessionSwipe');
-  await swipe.dispatchEvent('touchstart',{touches:[{clientX:290,clientY:250}]});
-  await swipe.dispatchEvent('touchend',{changedTouches:[{clientX:95,clientY:253}]});
+  await swipe.evaluate(el=>{
+    const touch=(x,y)=>({identifier:1,target:el,clientX:x,clientY:y,pageX:x,pageY:y,screenX:x,screenY:y,radiusX:1,radiusY:1,rotationAngle:0,force:1});
+    const send=(type,x,y)=>{const t=touch(x,y);el.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==="touchend"?[]:[new Touch(t)],changedTouches:[new Touch(t)],targetTouches:type==="touchend"?[]:[new Touch(t)]}));};
+    send("touchstart",290,250);send("touchend",95,253);
+  });
   if((await page.locator('#sessionLabel').innerText())===initialSession)throw Error('Glissement vers la gauche inactif');
-  await swipe.dispatchEvent('touchstart',{touches:[{clientX:95,clientY:253}]});
-  await swipe.dispatchEvent('touchend',{changedTouches:[{clientX:290,clientY:250}]});
+  await swipe.evaluate(el=>{
+    const touch=(x,y)=>new Touch({identifier:2,target:el,clientX:x,clientY:y});
+    el.dispatchEvent(new TouchEvent("touchstart",{bubbles:true,touches:[touch(95,253)],changedTouches:[touch(95,253)]}));
+    el.dispatchEvent(new TouchEvent("touchend",{bubbles:true,touches:[],changedTouches:[touch(290,250)]}));
+  });
   if((await page.locator('#sessionLabel').innerText())!==initialSession)throw Error('Glissement vers la droite inactif');
   await page.locator('#expressPlay').click();
   await page.waitForTimeout(1200);

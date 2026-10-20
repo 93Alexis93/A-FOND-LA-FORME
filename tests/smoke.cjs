@@ -25,12 +25,12 @@ const {chromium}=require('playwright');
   if(!(await page.locator('#quickRest').innerText()).includes('notée'))throw Error('Repos rapide non enregistré');
   // Régression : enregistrer du foot doit augmenter le compteur sans casser le calendrier.
   await page.locator('#today').click();
-  const beforeMinutes=Number((await page.locator('#activeMinutes').innerText()).match(/\\d+/)[0]);
+  const beforeMinutes=Number((await page.locator('#activeMinutes').innerText()).match(/\d+/)[0]);
   await page.locator('#activityType').selectOption('Foot');
   await page.locator('#activityMinutes').fill('90');
   await page.locator('#activityMode').selectOption('extra');
   await page.locator('#activityForm button[type=submit]').click();
-  const afterMinutes=Number((await page.locator('#activeMinutes').innerText()).match(/\\d+/)[0]);
+  const afterMinutes=Number((await page.locator('#activeMinutes').innerText()).match(/\d+/)[0]);
   if(afterMinutes-beforeMinutes!==90)throw Error('Foot 90 min non ajouté au compteur');
   if(!(await page.locator('#activityLog').innerText()).includes('Foot · 90 min'))throw Error('Foot absent du journal');
   await page.locator('#tabbtn-calendar').click();
@@ -40,7 +40,13 @@ const {chromium}=require('playwright');
   await page.locator('#tabbtn-home').click();
   await page.reload();
   if(!(await page.locator('#activeMinutes').innerText()).includes(String(afterMinutes)))throw Error('Minutes perdues après rechargement');
+  // Les quatre déroulés restent accessibles et réversibles.
   await page.locator('#tabbtn-workout').click();
+  const initialSession=await page.locator('#sessionLabel').innerText();
+  await page.locator('#sessionNext').click();
+  if((await page.locator('#sessionLabel').innerText())===initialSession)throw Error('Navigation séances inactive');
+  await page.locator('#sessionPrev').click();
+  if((await page.locator('#sessionLabel').innerText())!==initialSession)throw Error('Retour séance impossible');
   await page.locator('#expressPlay').click();
   await page.waitForTimeout(1200);
   await page.locator('#expressPause').click();

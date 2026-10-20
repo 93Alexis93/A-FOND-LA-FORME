@@ -23,7 +23,7 @@ jobs:
       - name: Installer navigateur de test
         run: |
           npm install --no-save playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Tester le site en navigateur mobile
         run: |
           python3 -m http.server 8765 >/tmp/site.log 2>&1 &
